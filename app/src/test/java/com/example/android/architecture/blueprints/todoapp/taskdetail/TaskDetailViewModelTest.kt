@@ -78,7 +78,19 @@ class TaskDetailViewModelTest {
 
     @Test
     fun deleteTask() {
-        // TODO
+        assertThat(tasksRepository.tasksServiceData.containsValue(task)).isTrue()
+        taskDetailViewModel.start(task.id)
+
+        // Execute pending coroutines actions
+        testContext.triggerActions()
+
+        // When the deletion of a task is requested
+        taskDetailViewModel.deleteTask()
+
+        // Execute pending coroutines actions
+        testContext.triggerActions()
+
+        assertThat(tasksRepository.tasksServiceData.containsValue(task)).isFalse()
     }
 
     @Test
